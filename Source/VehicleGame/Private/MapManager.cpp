@@ -85,7 +85,7 @@ void AMapManager::LoadChunksAt(FVector position, int radius_num)
 	
 	// Filtering and unloading chunks which are out of bounds
 	TArray<std::tuple<ULevelStreaming*, FString>> stillLoadedChunks;
-	for (const auto chunk : LoadedChunks) {
+	for (const auto &chunk : LoadedChunks) {
 		auto location = get<0>(chunk)->LevelTransform.GetLocation();
 		if (location.X < (x - radius_num) * chunkSize
 			|| location.X > (x + radius_num) * chunkSize
@@ -109,7 +109,7 @@ void AMapManager::LoadChunksAt(FVector position, int radius_num)
 			}
 
 			bool already_loaded = false;
-			for (const auto chunk : LoadedChunks) {
+			for (const auto &chunk : LoadedChunks) {
 				auto location = get<0>(chunk)->LevelTransform.GetLocation();
 				if ((location.X == (ix * chunkSize)) && (location.Y == (iy * chunkSize))) {
 					already_loaded = true;
@@ -153,8 +153,8 @@ void AMapManager::LoadChunksAt(FVector position, int radius_num)
 bool AMapManager::GenerateMap(FVector2D mapSize, int random_paths_num, double fill_probability, FVector2D start, FVector2D finish)
 {
 	bool levels_good = true;
-	for (const auto array : {NoRoadChunks, DeadEndChunks, Turn90Chunks, StraightLineChunks, TChunks, CrossRoadChunks}) {
-		for (const auto level_name : array) {
+	for (const auto &array : {NoRoadChunks, DeadEndChunks, Turn90Chunks, StraightLineChunks, TChunks, CrossRoadChunks}) {
+		for (const auto &level_name : array) {
 			if (UGameplayStatics::GetStreamingLevel(this, level_name) == nullptr) {
 				if (GEngine)
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red,
